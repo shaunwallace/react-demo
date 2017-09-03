@@ -77,13 +77,13 @@ function binarySearch(items, value, property) {
   return items[middle][property] === value ? middle : -1;
 }
 
-export function updateItem(array, id, key) {
+export function updateItem(array, id, key, newState = true) {
   const index = binarySearch(array, id, key);
 
   if (index !== -1) {
     const titles = array.map((v, i) => (
       i === index ? 
-        {...v, selected: true } : v.selected ? 
+        {...v, selected: newState } : v.selected ? 
         {...v, selected: false } : v
       )
     );

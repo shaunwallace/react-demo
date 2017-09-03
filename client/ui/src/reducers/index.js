@@ -33,7 +33,7 @@ export default (state = defaultState, action = {}) => {
         ...state,
         activeVersions: state.versions[action.payload],
         selectedTitle: action.payload,
-        ...updateItem(state.titles, action.payload, 'movieId', { selected: true }),
+        ...updateItem(state.titles, action.payload, 'movieId'),
         ...{
           gallery: {
             galleryPreview: true,
@@ -44,8 +44,11 @@ export default (state = defaultState, action = {}) => {
     case CLOSE_GALLERY:
       return {
         ...state,
-        ...defaultState,
-        ...updateItem(state.titles, state.selectedTitle, 'movieId', { selected: false }),
+        ...{ gallery: defaultState.gallery },
+        selectedTitle: null,
+        selectedVersion: null,
+        activeVersions: [],
+        ...updateItem(state.titles, state.selectedTitle, 'movieId', false),
       }
     case VERSIONS_RECEIVED:
       return {
