@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initialize, getSelectedTitles, closeGallery } from '../actions';
-import { Gallery, Movie, PageTitle } from '../components';
+import { initialize, getSelectedTitles, closeGallery, updateExpandedView } from '../actions';
+import { Gallery, Movie } from '../components';
 import './appContainer.css';
 
 class AppContainer extends Component {
@@ -29,15 +29,17 @@ class AppContainer extends Component {
 
 const mapStateToProps = state => ({
   images: state.appState.titles,
-  versions: state.appState.versions,
+  versions: state.appState.activeVersions,
   selectedTitle: state.appState.selectedTitle,
+  selectedVersion: state.appState.selectedVersion,
   gallery: state.appState.gallery
 });
 
 const mapDispatchToProps = dispatch => ({
   initialize: () => dispatch(initialize()),
   getSelectedTitlesVersions: title => dispatch(getSelectedTitles(title)),
-  closeGallery: () => dispatch(closeGallery())
+  closeGallery: () => dispatch(closeGallery()),
+  updateExpandedView: (version) => dispatch(updateExpandedView(version))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

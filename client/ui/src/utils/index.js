@@ -81,10 +81,15 @@ export function updateItem(array, id, key) {
   const index = binarySearch(array, id, key);
 
   if (index !== -1) {
-    const titles = array.map((v, i) => ({ ...v, selected: i === index }));
+    const titles = array.map((v, i) => (
+      i === index ? 
+        {...v, selected: true } : v.selected ? 
+        {...v, selected: false } : v
+      )
+    );
+
     return {
-      titles,
-      selectedTitle: titles[index]
+      titles
     }
   }
 

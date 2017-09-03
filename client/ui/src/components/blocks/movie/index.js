@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Image } from '../../../components';
-import { classNames } from '../../../utils';
+import { classNames, noop } from '../../../utils';
 import './movie.css';
 
 class Movie extends Component {
@@ -13,7 +13,9 @@ class Movie extends Component {
     fullSizeImageUrl: PropTypes.string,
     languageCode: PropTypes.string,
     type: PropTypes.string,
-    selected: PropTypes.bool
+    selected: PropTypes.bool,
+    onClick: PropTypes.func,
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -24,7 +26,9 @@ class Movie extends Component {
     fullSizeImageUrl: '',
     languageCode: '',
     type: 'thumbnail',
-    selected: false
+    selected: false,
+    onClick: noop,
+    children: null
   }
 
   handleClick = ({ movieId, selected }) => () => {
@@ -34,10 +38,11 @@ class Movie extends Component {
   }
 
   render() {
-    const { movieName, type, thumbnailUrl, fullSizeImageUrl, movieId } = this.props;
+    const { movieName, type, thumbnailUrl, fullSizeImageUrl } = this.props;
     const classes = classNames({
       movieTile: true,
       thumbnail: type === 'thumbnail',
+      fullsize: type === 'fullsize',
       selected: this.props.selected
     });
 
@@ -52,6 +57,7 @@ class Movie extends Component {
           active={ this.props.selected }
           src={ type === 'thumbnail' ? thumbnailUrl : fullSizeImageUrl }
         />
+        { this.props.children }
       </div>
     );
   }

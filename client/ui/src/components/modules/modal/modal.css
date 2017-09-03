@@ -1,0 +1,21 @@
+.modal {
+  position: fixed;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  background-color: rgba(0, 0, 0, .85);
+}
+
+.modal .content {
+  grid-template-rows:    [outer-start] 1fr [inner-start] 1fr 1fr 1fr [inner-end] 1fr [outer-end];
+  grid-template-columns: [outer-start] 1fr [inner-start] 1fr 1fr 1fr [inner-end] 1fr [inner-end];
+  height: 100vh;
+  display: grid;
+}
+
+.modal .content .body {
+  display: grid;
+  grid-area: inner;
+  position: relative;
+}

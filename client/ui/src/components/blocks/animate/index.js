@@ -22,7 +22,7 @@ class Animate extends Component {
   static defaultProps = {
     frames: [],
     options: animationOptionDefaults,
-    onFinish: () => {},
+    onFinish: noop,
     children: null,
     playOnInitialization: false
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Animate, GalleryPreview } from '../../';
-import { classNames, noop } from '../../../utils';
+import { GalleryPreview } from '../../';
+import { classNames } from '../../../utils';
 import './gallery.css';
 
 class Gallery extends Component {
@@ -31,7 +31,6 @@ class Gallery extends Component {
     currentIndex: 0,
     items: [],
     versions: [],
-    showVersions: false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,41 +42,8 @@ class Gallery extends Component {
         items: nextProps.images.slice(this.state.currentIndex, maxItems + 1),
         currentIndex: this.state.currentIndex,
         maxHeight,
-        maxItems,
-        animation: this.getAnimationValues(this.state.items.length, this.onFinalAnimation)
+        maxItems
       });
-    }
-  }
-
-  onFinalAnimation = () => {
-    this.setState({
-      showVersions: true,
-    });
-  }
-
-  getAnimationValues = (sequenceLength, onSequenceEnd = noop, reverse) => i => {
-    let delay = 0.6;
-    let staggerTime = 0.09;
-    let initialPosition = reverse ? 75 : 0
-    let restingPosition = reverse ? 0 : 75;
-
-    return {
-      frames: [
-        { transform: `translate3d(-${initialPosition}%, 0, 0)`, offset: 0 },
-        { transform: `translate3d(-${initialPosition}%, 0, 0)`, offset: i * staggerTime },
-        { transform: `translate3d(-${restingPosition}%, 0, 0)`, offset: (i * staggerTime + delay) },
-        { transform: `translate3d(-${restingPosition}%, 0, 0)`, offset: 1 }
-      ],
-      options: { duration: 900 },
-      onFinish: (function(i) {
-        return function(instance) {
-          // if we are calling the final animation sequence then fire any cb provided
-          i === sequenceLength - 1 && onSequenceEnd();
-          // since we need to establish the resting state of the items we animated, set
-          // the resting position once the animation is complete
-          instance.setAttribute("style", `transform: translate3d(-${restingPosition}%, 0, 0);`);
-        }
-      })(i)
     }
   }
 
@@ -87,38 +53,48 @@ class Gallery extends Component {
         className="gallery"
         ref={el => this.gallery = el}
       >
+        { this.props.gallery.galleryExpanded &&
+          <div
+            className={classNames({
+              movieMetaInformation: true,
+              show: true
+            })}
+          >
+            <p>Name: { this.props.selectedVersion.movieName }</p>
+            <p>Movie ID: { this.props.selectedVersion.movieId }</p>
+            <p>Image Type: { this.props.selectedVersion.imageType }</p>
+            <p>Language Code: { this.props.selectedVersion.languageCode }</p>
+          </div>
+        }
+        
         <section
           className={classNames({
             gallerySidebar: true,
-            collapsed: this.props.selectedTitle
+            collapsed: !this.props.gallery.gallerySidebar
           })}
           style={{ maxHeight: `${this.state.maxHeight}px` }}
         >
           {
             this.state.items.map((item, i) =>
-              <Animate
-                play={ !this.props.gallery.gallerySidebar }
-                key={ item.id }
-                { ...this.state.animation(i) }
+              <div
+                key={i}
+                className={
+                classNames({
+                  item: true,
+                  inactive: !this.props.gallery.gallerySidebar && !item.selected,
+                })}
               >
-                <div className={
-                  classNames({
-                    item: true,
-                    inactive: this.props.selectedTitle && !item.selected,
-                  })}
-                >
-                  {
-                    React.cloneElement(this.props.children, { ...item })
-                  }
-                </div>
-              </Animate>
+                {
+                  React.cloneElement(this.props.children, { ...item })
+                }
+              </div>
             )
           }
         </section>
         <GalleryPreview
           images={ this.props.versions }
-          showGalleryImages={ this.state.showVersions && this.props.gallery.galleryPreview }
           onClose={ this.props.closeGallery }
+          onModalStateChange={ this.props.updateExpandedView }
         />
       </div>
     );

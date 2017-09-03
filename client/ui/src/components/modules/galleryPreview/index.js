@@ -1,81 +1,82 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Animate, Movie, PageTitle, ExpandableButton } from '../../';
-import { classNames, noop } from '../../../utils';
+import { Movie, Header, ExpandableButton, Modal } from '../../';
+import { noop } from '../../../utils';
 import './galleryPreview.css';
 
 class GalleryPreview extends Component {
 
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.object),
-    showGalleryImages: PropTypes.bool
+    showGalleryImages: PropTypes.bool,
+    onModalStateChange: PropTypes.func
   }
 
   static defaultProps = {
     images: [],
-    showGalleryImages: false
+    showGalleryImages: true,
+    onModalStateChange: noop
   }
 
-  getAnimationValues = (sequenceLength, onSequenceEnd = noop) => i => {
-    let delay = 0.6;
-    let staggerTime = 0.09;
-    let restingPosition = 75;
+  state = {
+    selectedTitle: null
+  }
 
-    return {
-      frames: [
-        { transform: 'translate3d(0, 0, 0)', offset: 0 },
-        { transform: 'translate3d(0, 0, 0)', offset: i * staggerTime },
-        { transform: `translate3d(-${restingPosition}%, 0, 0)`, offset: (i * staggerTime + delay) },
-        { transform: `translate3d(-${restingPosition}%, 0, 0)`, offset: 1 }
-      ],
-      options: { duration: 1400 },
-      onFinish: (function() {
-        return function() {
-          // if we are calling the final animation sequence then fire any cb provided
-          i === sequenceLength - 1 && onSequenceEnd();
-          // since we need to establish the resting state of the items we animated, set
-          // the resting position once the animation is complete
-          this.setAttribute("style", `transform: translate3d(-${restingPosition}%, 0, 0);`);
-        }
-      })(i)
-    }
+  onSelectedImage = movie => () => {
+    this.setState({
+      selectedTitle: movie
+    }, () => {
+      this.props.onModalStateChange(movie)
+    });
+  }
+
+  closeModal = () => {
+    this.setState({
+      selectedTitle: null
+    }, () => {
+      this.props.onModalStateChange(null)
+    });
   }
 
   render() {
+    const length = this.props.images.length;
     return ( 
       <section className="galleryPreview">
         {
-          this.props.showGalleryImages && (
+          length ? (
             <div
               className="galleryPreviewContainer"
               style={{ maxHeight: `${document.body.getBoundingClientRect().height}px` }}
             >
-              <PageTitle>
+              <Header>
                 <ExpandableButton
                   show
                   initialOpenState
-                  onClick={this.props.onClose}
+                  onClick={ this.props.onClose }
                 />
-              </PageTitle>
+              </Header>
               <div
                 className="galleryPreviewImages"
-                style={{ opacity: this.props.showGalleryImages ? 1 : 0 }}
               >
                 {
                   this.props.images.map((item, i) =>
                     <Movie
-                      key={i}
+                      key={ i }
                       type="galleryThumbnail"
+                      onClick={ this.onSelectedImage(item) }
                       { ...item }
                     />
                   )
                 }
               </div>
             </div>
-          )
+          ) : null
         }
-        <h1 style={{ opacity: this.props.showGalleryImages ? 0 : 1 }}>Choose a title to preview artwork</h1>
-      </section> 
+        <h1 style={{ opacity: length !== 0 ? 0 : 1 }}>Choose a title to preview artwork</h1>
+        {
+          this.state.selectedTitle && <Modal { ...this.state.selectedTitle } onClose={ this.closeModal } />
+        }
+      </section>
     );
   }
 }

@@ -77,7 +77,6 @@ class Image extends Component {
             />
           ) : null
         }
-        
       </div>
     );
   }

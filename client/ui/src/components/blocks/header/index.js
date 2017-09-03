@@ -1,5 +1,5 @@
 import React from 'react';
-import './pageTitle.css';
+import './header.css';
 
 export default ({ children }) =>
   <header className="title">
