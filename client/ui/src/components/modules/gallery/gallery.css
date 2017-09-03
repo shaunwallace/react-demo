@@ -1,0 +1,32 @@
+.gallery {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(auto, 300px) 1fr 3fr;
+}
+
+.gallerySidebar {
+  overflow-y: scroll;
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  padding: 0 10px;
+  grid-template-columns: minmax(auto, 299px);
+  transition: all .6s ease;
+  ::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+  }
+}
+
+.gallerySidebar .item {
+  transition: all .6s ease;
+}
+
+.gallerySidebar .item.inactive {
+  opacity: .2;
+}
+
+.gallerySidebar .item.inactive:hover {
+  opacity: 1;
+  transform: translate3d(60%, 0, 0);
+}

@@ -1,0 +1,39 @@
+{
+  "name": "movie",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "movieId": {
+      "type": "number",
+      "required": true
+    },
+    "movieName": {
+      "type": "string",
+      "required": true
+    },
+    "imageType": {
+      "type": "string",
+      "required": true
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "required": true
+    },
+    "fullSizeImageUrl": {
+      "type": "string",
+      "required": true
+    },
+    "languageCode": {
+      "type": "string",
+      "required": true,
+      "default": ""
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

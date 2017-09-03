@@ -1,0 +1,25 @@
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  cursor: pointer;
+  position: relative;
+  background-color: #012026;
+  transition: all 0.4s ease;
+}
+
+.imageContainer.loaded {
+  background-color: rgba(0,0,0,0);
+}
+
+.imageContainer img {
+  width: 100%;
+  display: block;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.imageContainer.loaded img {
+  opacity: 1;
+  background-color: transparent;
+}

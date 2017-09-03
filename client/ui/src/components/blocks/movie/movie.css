@@ -1,0 +1,42 @@
+/* .imageContainer.loaded .movie {
+  opacity: 1;
+  background-color: transparent;
+} */
+
+/* .movieTile:hover {
+  -webkit-filter: grayscale(1) brightness(.3);
+  transform: scale(1.05);
+} */
+
+/* .movieTile {
+  opacity: 1;
+  background-color: transparent;
+} */
+
+.movieTile:hover {
+  -webkit-filter: grayscale(1) brightness(.3);
+}
+
+.movieTile.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.collapsed .movieTile.thumbnail:hover {
+  -webkit-filter: grayscale(0) brightness(1);
+}
+/* .imageContainer.selected:hover {
+  transform: translate3d(10%, 0, 0);
+} */
+
+/* .movie:hover:not(.selected) {
+  -webkit-filter: grayscale(1) brightness(.3);
+  transform: scale(1.05);
+} */
+
+.movieTile {
+  width: 100%;
+  display: block;
+  transition: all 0.6s ease;
+  -webkit-transition: all 0.6s ease;
+  -webkit-filter: grayscale(0) brightness(1);
+}
