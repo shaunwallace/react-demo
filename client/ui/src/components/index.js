@@ -6,6 +6,7 @@ import Loader from './blocks/loader';
 import Header from './blocks/header';
 import Animate from './blocks/animate';
 import Image from './blocks/image';
+import MovieMeta from './blocks/movieMeta';
 
 // modules
 import Gallery from './modules/gallery';
@@ -21,5 +22,6 @@ export {
   Header,
   Animate,
   Image,
-  Modal
+  Modal,
+  MovieMeta
 }

@@ -1,0 +1,21 @@
+.movieMetaInformation {
+  z-index: 101;
+  width: 100%;
+  color: white;
+  min-height: 100px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  transform: translate3d(0, -100%, 0);
+  transition: all 300ms ease;
+  position: absolute;
+}
+
+.movieMetaInformation.show {
+  transform: translate3d(0, 0, 0);
+}
+
+.movieMetaInformation p {
+  font-size: 14px;
+  margin: 5px 0;
+}

@@ -73,9 +73,11 @@ class GalleryPreview extends Component {
           ) : null
         }
         <h1 style={{ opacity: length !== 0 ? 0 : 1 }}>Choose a title to preview artwork</h1>
-        {
-          this.state.selectedTitle && <Modal { ...this.state.selectedTitle } onClose={ this.closeModal } />
-        }
+        <Modal
+          open={ this.state.selectedTitle !== null }
+          onClose={ this.closeModal }
+          { ...this.state.selectedTitle }
+        />
       </section>
     );
   }

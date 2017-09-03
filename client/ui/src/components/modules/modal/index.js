@@ -6,17 +6,20 @@ import './modal.css';
 
 class Modal extends Component {
   static propTypes = {
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    open: PropTypes.bool
   }
 
   static defaultProps = {
-    onClose: noop
+    onClose: noop,
+    open: false
   }
 
   render() {
 
     const classes = classNames({
       modal: true,
+      open: this.props.open
     });
 
     return (

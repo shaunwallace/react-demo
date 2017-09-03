@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { GalleryPreview } from '../../';
+import { GalleryPreview, MovieMeta } from '../../';
 import { classNames } from '../../../utils';
 import './gallery.css';
 
@@ -53,20 +53,10 @@ class Gallery extends Component {
         className="gallery"
         ref={el => this.gallery = el}
       >
-        { this.props.gallery.galleryExpanded &&
-          <div
-            className={classNames({
-              movieMetaInformation: true,
-              show: true
-            })}
-          >
-            <p>Name: { this.props.selectedVersion.movieName }</p>
-            <p>Movie ID: { this.props.selectedVersion.movieId }</p>
-            <p>Image Type: { this.props.selectedVersion.imageType }</p>
-            <p>Language Code: { this.props.selectedVersion.languageCode }</p>
-          </div>
-        }
-        
+        <MovieMeta
+          show={ this.props.gallery.galleryExpanded }
+          { ...this.props.selectedVersion }
+        />        
         <section
           className={classNames({
             gallerySidebar: true,
