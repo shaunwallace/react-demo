@@ -7,12 +7,14 @@ import './gallery.css';
 class Gallery extends Component {
 
   static propTypes = {
-    images: PropTypes.arrayOf(PropTypes.object),
-    versions: PropTypes.arrayOf(PropTypes.object),
+    images: PropTypes.array,
+    versions: PropTypes.array,
     children: PropTypes.element.isRequired,
     gallery: PropTypes.shape({
-      galleryPreview: false,
-      gallerySidebar: true
+      galleryPreview: PropTypes.bool,
+      gallerySidebar: PropTypes.bool,
+      galleryExpanded: PropTypes.bool,
+      galleryOrder: PropTypes.string,
     })
   }
 
