@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Movie, Header, ExpandableButton, Modal } from '../../';
-import { noop } from '../../../utils';
+import { noop, classNames } from '../../../utils';
 import './galleryPreview.css';
 
 class GalleryPreview extends Component {
@@ -9,13 +9,17 @@ class GalleryPreview extends Component {
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.object),
     showGalleryImages: PropTypes.bool,
-    onModalStateChange: PropTypes.func
+    onModalStateChange: PropTypes.func,
+    galleryOrder: PropTypes.string,
+    onGroupSelection: PropTypes.func
   }
 
   static defaultProps = {
     images: [],
     showGalleryImages: true,
-    onModalStateChange: noop
+    onModalStateChange: noop,
+    galleryOrder: null,
+    onGroupSelection: noop
   }
 
   state = {
@@ -38,6 +42,12 @@ class GalleryPreview extends Component {
     });
   }
 
+  setOrderPriority = groupBy => () => {
+    if (groupBy !== this.props.galleryOrder) {
+      this.props.onGroupSelection(groupBy);
+    }
+  }
+
   render() {
     const length = this.props.images.length;
     return ( 
@@ -49,6 +59,24 @@ class GalleryPreview extends Component {
               style={{ maxHeight: `${document.body.getBoundingClientRect().height}px` }}
             >
               <Header>
+                <h3 className="galleryOrder">Order By: 
+                  <span
+                    className={classNames({
+                      active: this.props.galleryOrder === 'movieId'
+                    })}
+                    onClick={this.setOrderPriority('movieId')}
+                  >
+                    movieId
+                  </span>| 
+                  <span
+                    className={classNames({
+                      active: this.props.galleryOrder === 'languageCode'
+                    })}
+                    onClick={this.setOrderPriority('languageCode')}
+                  >
+                    languageCode
+                  </span>
+                </h3>
                 <ExpandableButton
                   show
                   initialOpenState

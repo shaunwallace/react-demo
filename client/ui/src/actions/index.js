@@ -1,7 +1,13 @@
-import oboe from 'oboe';
 import * as constants from '../constants';
 import { get } from '../utils';
-const { APP_INIT, TITLE_SELECTED, VERSIONS_RECEIVED, TITLE_AVAILABLE, CLOSE_GALLERY, EXPANDED_VIEW } = constants.default;
+const {
+  APP_INIT, 
+  TITLE_SELECTED,
+  VERSIONS_RECEIVED,
+  CLOSE_GALLERY, 
+  EXPANDED_VIEW,
+  GROUP_EXPANDED_VIEW
+} = constants.default;
 
 export function initialize() {
   return async dispatch => {
@@ -45,6 +51,15 @@ export function updateExpandedView(selectedVersion) {
       dispatch({
       type: EXPANDED_VIEW,
       payload: selectedVersion
+    });
+  }
+}
+
+export function groupExpandedView(groupBy) {
+  return dispatch => {
+      dispatch({
+      type: GROUP_EXPANDED_VIEW,
+      payload: groupBy
     });
   }
 }

@@ -57,7 +57,7 @@ export function classNames(obj) {
     .trim();
 }
 
-function binarySearch(items, value, property) {
+function search(items, value, property) {
   var start = 0;
   var end = items.length - 1;
   var middle = Math.floor((start + end) / 2);
@@ -78,7 +78,7 @@ function binarySearch(items, value, property) {
 }
 
 export function updateItem(array, id, key, newState = true) {
-  const index = binarySearch(array, id, key);
+  const index = search(array, id, key);
 
   if (index !== -1) {
     const titles = array.map((v, i) => (
@@ -97,3 +97,19 @@ export function updateItem(array, id, key, newState = true) {
 }
 
 export function noop(){}
+
+export function groupBy(list, key) {
+  let result = new Map();
+
+  list.forEach(value => {
+    let group = result.get(value[key]);
+    group ? group.push(value) : result.set(value[key], [value]);
+  });
+
+  let values = [];
+  for (let value of result.values()) {
+    values = [...values, ...value];
+  }
+   
+  return values;
+}

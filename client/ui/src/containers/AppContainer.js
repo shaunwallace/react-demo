@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initialize, getSelectedTitles, closeGallery, updateExpandedView } from '../actions';
+import { withRouter } from 'react-router-dom';
+import { initialize, getSelectedTitles, closeGallery, updateExpandedView, groupExpandedView } from '../actions';
 import { Gallery, Movie } from '../components';
 import './appContainer.css';
 
 class AppContainer extends Component {
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.props.initialize();
   }
 
@@ -39,7 +41,8 @@ const mapDispatchToProps = dispatch => ({
   initialize: () => dispatch(initialize()),
   getSelectedTitlesVersions: title => dispatch(getSelectedTitles(title)),
   closeGallery: () => dispatch(closeGallery()),
-  updateExpandedView: (version) => dispatch(updateExpandedView(version))
+  updateExpandedView: (version) => dispatch(updateExpandedView(version)),
+  groupExpandedView: (groupBy) => dispatch(groupExpandedView(groupBy))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppContainer));

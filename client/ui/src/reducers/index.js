@@ -1,21 +1,21 @@
 import * as constants from '../constants';
-import { updateItem } from '../utils';
+import { updateItem, groupBy } from '../utils';
 
 const {
   APP_INIT,
-  TITLE_AVAILABLE,
   TITLE_SELECTED,
   VERSIONS_RECEIVED,
   CLOSE_GALLERY,
-  VERSION_AVAILABLE,
-  EXPANDED_VIEW
+  EXPANDED_VIEW,
+  GROUP_EXPANDED_VIEW
 } = constants.default;
 
 const defaultState = {
   gallery: {
     galleryPreview: false,
     gallerySidebar: true,
-    galleryExpanded: false
+    galleryExpanded: false,
+    galleryOrder: 'movieId',
   },
   selectedTitle: null,
   selectedVersion: null,
@@ -34,12 +34,10 @@ export default (state = defaultState, action = {}) => {
         activeVersions: state.versions[action.payload],
         selectedTitle: action.payload,
         ...updateItem(state.titles, action.payload, 'movieId'),
-        ...{
-          gallery: {
-            galleryPreview: true,
-            gallerySidebar: false
-          }
-        }
+        gallery: { ...state.gallery, ...{
+          galleryPreview: true,
+          gallerySidebar: false
+        }}
       }
     case CLOSE_GALLERY:
       return {
@@ -60,11 +58,19 @@ export default (state = defaultState, action = {}) => {
       return {
         ...state,
         selectedVersion: action.payload,
-        ...{
-          gallery: {
-            galleryExpanded: action.payload
-          }
-        }
+        gallery: { ...state.gallery, ...{
+          galleryExpanded: action.payload
+        }}
+      }
+    case GROUP_EXPANDED_VIEW:
+      return {
+        ...state,
+        gallery: { ...state.gallery, ...{
+          galleryOrder: action.payload
+        }},
+        activeVersions: [
+          ...(action.payload === 'movieId' ? state.versions[state.selectedTitle] : groupBy(state.activeVersions, action.payload))
+        ]
       }
     default:
       return state;

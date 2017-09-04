@@ -8,6 +8,7 @@ class Gallery extends Component {
 
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.object),
+    versions: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.element.isRequired,
     gallery: PropTypes.shape({
       galleryPreview: false,
@@ -25,66 +26,52 @@ class Gallery extends Component {
     }
   }
 
-  state = {
-    numberOfItems: this.props.images.length,
-    maxHeight: 'auto',
-    currentIndex: 0,
-    items: [],
-    versions: [],
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.images !== nextProps.images) {
-      const maxHeight = this.gallery.getBoundingClientRect().height || document.body.getBoundingClientRect().height;
-      const maxItems = Math.floor(maxHeight / this.props.maxImageHeight);
-
-      this.setState({
-        items: nextProps.images.slice(this.state.currentIndex, maxItems + 1),
-        currentIndex: this.state.currentIndex,
-        maxHeight,
-        maxItems
-      });
-    }
-  }
-
   render() {
+    const { 
+      gallery,
+      selectedVersion, 
+      images,
+      children,
+      versions,
+      updateExpandedView, 
+      closeGallery,
+      groupExpandedView
+     } = this.props;
+
     return (
-      <div
-        className="gallery"
-        ref={el => this.gallery = el}
-      >
+      <div className="gallery">
         <MovieMeta
-          show={ this.props.gallery.galleryExpanded }
-          { ...this.props.selectedVersion }
-        />        
+          show={ gallery.galleryExpanded }
+          { ...selectedVersion }
+        />
         <section
           className={classNames({
             gallerySidebar: true,
-            collapsed: !this.props.gallery.gallerySidebar
+            collapsed: !gallery.gallerySidebar
           })}
-          style={{ maxHeight: `${this.state.maxHeight}px` }}
+          style={{ maxHeight: `${document.body.getBoundingClientRect().height}px` }}
         >
           {
-            this.state.items.map((item, i) =>
+            images.map((item, i) =>
               <div
                 key={i}
                 className={
                 classNames({
                   item: true,
-                  inactive: !this.props.gallery.gallerySidebar && !item.selected,
+                  inactive: !gallery.gallerySidebar && !item.selected,
                 })}
               >
-                {
-                  React.cloneElement(this.props.children, { ...item })
-                }
+                { React.cloneElement(children, { ...item }) }
               </div>
             )
           }
         </section>
         <GalleryPreview
-          images={ this.props.versions }
-          onClose={ this.props.closeGallery }
-          onModalStateChange={ this.props.updateExpandedView }
+          images={ versions }
+          galleryOrder={ gallery.galleryOrder }
+          onClose={ closeGallery }
+          onModalStateChange={ updateExpandedView }
+          onGroupSelection={ groupExpandedView }
         />
       </div>
     );
@@ -92,5 +79,3 @@ class Gallery extends Component {
 }
 
 export default Gallery;
-
-
