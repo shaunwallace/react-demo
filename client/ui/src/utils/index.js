@@ -1,6 +1,6 @@
 export function parseResponse(type) {
   return res => {
-    switch(type) {
+    switch (type) {
       case 'json':
         return res.json();
       case 'text':
@@ -8,7 +8,7 @@ export function parseResponse(type) {
       default:
         return res.json();
     }
-  }
+  };
 }
 
 export function checkStatus(response = {}) {
@@ -36,7 +36,7 @@ export function get(endpoint = '/', req = {}, responseParseType = 'json') {
     throw new Error('making an api request without an endpoint is not allowed');
   } else if (typeof endpoint !== 'string') {
     throw new Error(
-      `making an api request requires an endpoint with the type of string but ${typeof endpoint} was provided`,
+      `making an api request requires an endpoint with the type of string but ${typeof endpoint} was provided`
     );
   }
   // when the response resolves we check the status as fetch won't
@@ -52,7 +52,7 @@ export function get(endpoint = '/', req = {}, responseParseType = 'json') {
 
 export function classNames(obj) {
   return Object.keys(obj)
-    .map(key => obj[key] ? key : '')
+    .map(key => (obj[key] ? key : ''))
     .join(' ')
     .trim();
 }
@@ -62,8 +62,8 @@ function search(items, value, property) {
   var end = items.length - 1;
   var middle = Math.floor((start + end) / 2);
 
-  while(items[middle][property] !== value && start < end) {
-    if(items[middle][property] > value) {
+  while (items[middle][property] !== value && start < end) {
+    if (items[middle][property] > value) {
       // move end to be the new middle
       end = middle - 1;
     } else {
@@ -81,22 +81,22 @@ export function updateItem(array, id, key, newState = true) {
   const index = search(array, id, key);
 
   if (index !== -1) {
-    const titles = array.map((v, i) => (
-      i === index ? 
-        {...v, selected: newState } : v.selected ? 
-        {...v, selected: false } : v
-      )
+    const titles = array.map(
+      (v, i) =>
+        i === index
+          ? { ...v, selected: newState }
+          : v.selected ? { ...v, selected: false } : v
     );
 
     return {
       titles
-    }
+    };
   }
 
   return { titles: array };
 }
 
-export function noop(){}
+export function noop() {}
 
 export function groupBy(list, key) {
   let result = new Map();
@@ -110,6 +110,6 @@ export function groupBy(list, key) {
   for (let value of result.values()) {
     values = [...values, ...value];
   }
-   
+
   return values;
 }

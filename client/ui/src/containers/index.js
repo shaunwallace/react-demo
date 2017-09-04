@@ -1,5 +1,3 @@
 import AppContainer from './AppContainer';
 
-export {
-  AppContainer,
-}
+export { AppContainer };

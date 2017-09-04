@@ -14,10 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
     (typeof window === 'object' &&
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
     compose;
-  store = createStore(
-    AppStore,
-    composeEnhancers(applyMiddleware(thunk)),
-  );
+  store = createStore(AppStore, composeEnhancers(applyMiddleware(thunk)));
 }
 
 export default () => (

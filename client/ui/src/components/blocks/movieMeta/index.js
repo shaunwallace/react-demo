@@ -9,9 +9,9 @@ export default ({ show, movieName, movieId, imageType, languageCode }) => (
       show
     })}
   >
-    <p>Name: { movieName }</p>
-    <p>Movie ID: { movieId }</p>
-    <p>Image Type: { imageType }</p>
-    <p>Language Code: { languageCode }</p>
+    <p>Name: {movieName}</p>
+    <p>Movie ID: {movieId}</p>
+    <p>Image Type: {imageType}</p>
+    <p>Language Code: {languageCode}</p>
   </div>
 );

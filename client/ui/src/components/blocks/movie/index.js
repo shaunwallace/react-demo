@@ -16,7 +16,7 @@ class Movie extends Component {
     selected: PropTypes.bool,
     onClick: PropTypes.func,
     children: PropTypes.node
-  }
+  };
 
   static defaultProps = {
     movieId: '',
@@ -29,13 +29,13 @@ class Movie extends Component {
     selected: false,
     onClick: noop,
     children: null
-  }
+  };
 
   handleClick = ({ movieId, selected }) => () => {
     if (!selected) {
       this.props.onClick(movieId);
     }
-  }
+  };
 
   render() {
     const { type, thumbnailUrl, fullSizeImageUrl } = this.props;
@@ -47,17 +47,14 @@ class Movie extends Component {
     });
 
     return (
-      <div
-        className={ classes }
-        onClick={ this.handleClick(this.props) }
-      >
+      <div className={classes} onClick={this.handleClick(this.props)}>
         <Image
           type={type}
           showIcon={this.props.showIcon}
-          active={ this.props.selected }
-          src={ type === 'thumbnail' ? thumbnailUrl : fullSizeImageUrl }
+          active={this.props.selected}
+          src={type === 'thumbnail' ? thumbnailUrl : fullSizeImageUrl}
         />
-        { this.props.children }
+        {this.props.children}
       </div>
     );
   }

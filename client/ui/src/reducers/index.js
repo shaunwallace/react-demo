@@ -15,14 +15,14 @@ const defaultState = {
     galleryPreview: false,
     gallerySidebar: true,
     galleryExpanded: false,
-    galleryOrder: 'movieId',
+    galleryOrder: 'movieId'
   },
   selectedTitle: null,
   selectedVersion: null,
   titles: [],
   activeVersions: [],
   versions: {}
-}
+};
 
 export default (state = defaultState, action = {}) => {
   switch (action.type) {
@@ -34,11 +34,14 @@ export default (state = defaultState, action = {}) => {
         activeVersions: state.versions[action.payload],
         selectedTitle: action.payload,
         ...updateItem(state.titles, action.payload, 'movieId'),
-        gallery: { ...state.gallery, ...{
-          galleryPreview: true,
-          gallerySidebar: false
-        }}
-      }
+        gallery: {
+          ...state.gallery,
+          ...{
+            galleryPreview: true,
+            gallerySidebar: false
+          }
+        }
+      };
     case CLOSE_GALLERY:
       return {
         ...state,
@@ -46,33 +49,44 @@ export default (state = defaultState, action = {}) => {
         selectedTitle: null,
         selectedVersion: null,
         activeVersions: [],
-        ...updateItem(state.titles, state.selectedTitle, 'movieId', false),
-      }
+        ...updateItem(state.titles, state.selectedTitle, 'movieId', false)
+      };
     case VERSIONS_RECEIVED:
       return {
         ...state,
-        versions: { ...state.versions, ...{ [action.payload.id]: action.payload.versions } },
+        versions: {
+          ...state.versions,
+          ...{ [action.payload.id]: action.payload.versions }
+        },
         activeVersions: action.payload.versions
-      }
+      };
     case EXPANDED_VIEW:
       return {
         ...state,
         selectedVersion: action.payload,
-        gallery: { ...state.gallery, ...{
-          galleryExpanded: action.payload
-        }}
-      }
+        gallery: {
+          ...state.gallery,
+          ...{
+            galleryExpanded: action.payload
+          }
+        }
+      };
     case GROUP_EXPANDED_VIEW:
       return {
         ...state,
-        gallery: { ...state.gallery, ...{
-          galleryOrder: action.payload
-        }},
+        gallery: {
+          ...state.gallery,
+          ...{
+            galleryOrder: action.payload
+          }
+        },
         activeVersions: [
-          ...(action.payload === 'movieId' ? state.versions[state.selectedTitle] : groupBy(state.activeVersions, action.payload))
+          ...(action.payload === 'movieId'
+            ? state.versions[state.selectedTitle]
+            : groupBy(state.activeVersions, action.payload))
         ]
-      }
+      };
     default:
       return state;
   }
-}
+};

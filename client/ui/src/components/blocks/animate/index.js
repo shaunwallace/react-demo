@@ -10,14 +10,13 @@ const animationOptionDefaults = {
 };
 
 class Animate extends Component {
-
   static propTypes = {
     frames: PropTypes.array,
     options: PropTypes.object,
     onFinish: PropTypes.func,
     children: PropTypes.node,
     playOnInitialization: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     frames: [],
@@ -25,16 +24,21 @@ class Animate extends Component {
     onFinish: noop,
     children: null,
     playOnInitialization: false
-  }
+  };
 
   componentDidMount() {
-    this.animation = this.instance.animate(this.props.frames, Object.assign({}, animationOptionDefaults, this.props.options));
+    this.animation = this.instance.animate(
+      this.props.frames,
+      Object.assign({}, animationOptionDefaults, this.props.options)
+    );
     this.props.playOnInitialization || this.animation.pause();
-    this.animation.addEventListener("finish", () => { this.props.onFinish(this.instance) });
+    this.animation.addEventListener('finish', () => {
+      this.props.onFinish(this.instance);
+    });
   }
 
   componentWillUnmount() {
-    this.animation.removeEventListener("finish", this.props.onFinish);
+    this.animation.removeEventListener('finish', this.props.onFinish);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,12 +49,16 @@ class Animate extends Component {
 
   play = () => {
     this.animation.play();
-  }
+  };
 
   render() {
     return (
-      <div ref={(instance) => { this.instance = instance }}>
-        { this.props.children }
+      <div
+        ref={instance => {
+          this.instance = instance;
+        }}
+      >
+        {this.props.children}
       </div>
     );
   }

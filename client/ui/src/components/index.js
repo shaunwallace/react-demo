@@ -1,4 +1,3 @@
-
 // blocks
 import Movie from './blocks/movie';
 import ExpandableButton from './blocks/expandableButton';
@@ -26,4 +25,4 @@ export {
   Modal,
   MovieMeta,
   SortOptions
-}
+};

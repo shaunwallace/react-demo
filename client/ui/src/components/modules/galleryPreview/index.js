@@ -5,14 +5,13 @@ import { noop } from '../../../utils';
 import './galleryPreview.css';
 
 class GalleryPreview extends Component {
-
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.object),
     showGalleryImages: PropTypes.bool,
     onModalStateChange: PropTypes.func,
     galleryOrder: PropTypes.string,
     onGroupSelection: PropTypes.func
-  }
+  };
 
   static defaultProps = {
     images: [],
@@ -20,78 +19,82 @@ class GalleryPreview extends Component {
     onModalStateChange: noop,
     galleryOrder: null,
     onGroupSelection: noop
-  }
+  };
 
   state = {
     selectedTitle: null
-  }
+  };
 
   onSelectedImage = movie => () => {
-    this.setState({
-      selectedTitle: movie
-    }, () => {
-      this.props.onModalStateChange(movie)
-    });
-  }
+    this.setState(
+      {
+        selectedTitle: movie
+      },
+      () => {
+        this.props.onModalStateChange(movie);
+      }
+    );
+  };
 
   closeModal = () => {
-    this.setState({
-      selectedTitle: null
-    }, () => {
-      this.props.onModalStateChange(null)
-    });
-  }
+    this.setState(
+      {
+        selectedTitle: null
+      },
+      () => {
+        this.props.onModalStateChange(null);
+      }
+    );
+  };
 
   setOrderPriority = groupBy => () => {
     if (groupBy !== this.props.galleryOrder) {
       this.props.onGroupSelection(groupBy);
     }
-  }
+  };
 
   render() {
     const length = this.props.images.length;
-    return ( 
+    return (
       <section className="galleryPreview">
-        {
-          length ? (
-            <div
-              className="galleryPreviewContainer"
-              style={{ maxHeight: `${document.body.getBoundingClientRect().height}px` }}
-            >
-              <Header>
-                <SortOptions
-                  orderOptions={ ['movieId', 'languageCode'] }
-                  activeOption={ this.props.galleryOrder }
-                  setOption={ this.setOrderPriority }
+        {length ? (
+          <div
+            className="galleryPreviewContainer"
+            style={{
+              maxHeight: `${document.body.getBoundingClientRect().height}px`
+            }}
+          >
+            <Header>
+              <SortOptions
+                orderOptions={['movieId', 'languageCode']}
+                activeOption={this.props.galleryOrder}
+                setOption={this.setOrderPriority}
+              />
+              <ExpandableButton
+                show
+                initialOpenState
+                onClick={this.props.onClose}
+              />
+            </Header>
+            <div className="galleryPreviewImages">
+              {this.props.images.map((item, i) => (
+                <Movie
+                  key={i}
+                  type="galleryThumbnail"
+                  onClick={this.onSelectedImage(item)}
+                  {...item}
                 />
-                <ExpandableButton
-                  show
-                  initialOpenState
-                  onClick={ this.props.onClose }
-                />
-              </Header>
-              <div
-                className="galleryPreviewImages"
-              >
-                {
-                  this.props.images.map((item, i) =>
-                    <Movie
-                      key={ i }
-                      type="galleryThumbnail"
-                      onClick={ this.onSelectedImage(item) }
-                      { ...item }
-                    />
-                  )
-                }
-              </div>
+              ))}
             </div>
-          ) : null
-        }
-        <h1 style={{ opacity: length !== 0 ? 0 : 1 }}>Choose a title to preview artwork</h1>
+          </div>
+        ) : null}
+        <h1 style={{ opacity: length !== 0 ? 0 : 1 }}>
+          Choose a title to preview artwork
+        </h1>
         <Modal
-          open={ this.state.selectedTitle !== null }
-          onClose={ this.closeModal }
-          { ...this.state.selectedTitle }
+          open={this.state.selectedTitle !== null}
+          onClose={this.closeModal}
+          {...this.state.selectedTitle}
         />
       </section>
     );
@@ -99,7 +102,6 @@ class GalleryPreview extends Component {
 }
 
 export default GalleryPreview;
-
 
 // {
 //   reveal ? (
@@ -110,7 +112,7 @@ export default GalleryPreview;
 //         { ...item }
 //       />
 //     )
-//   ) : 
+//   ) :
 //     <Animate
 //       playOnInitialization
 //       { ...{
@@ -119,7 +121,7 @@ export default GalleryPreview;
 //           { opacity: 1 }
 //         ],
 //         onFinish: function() {
-//           this.setAttribute("style", `opacity: 1`); 
+//           this.setAttribute("style", `opacity: 1`);
 //         }
 //       }
 //     }

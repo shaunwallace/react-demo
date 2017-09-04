@@ -10,42 +10,42 @@ class Image extends Component {
     onClick: PropTypes.func,
     active: PropTypes.bool,
     showIcon: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     src: PropTypes.string,
     onClick: noop,
     active: false,
     showIcon: false
-  }
+  };
 
   state = {
     loaded: false
-  }
+  };
 
   handleOnLoad = () => {
     this.setState({
       loaded: true
     });
-  }
+  };
 
   handleClick = () => {
     if (!this.props.active) {
       this.props.onClick();
     }
-  }
+  };
 
   handleMouseEnter = () => {
     this.setState({
       hovered: true
     });
-  }
+  };
 
   handleMouseLeave = () => {
     this.setState({
       hovered: false
     });
-  }
+  };
 
   render() {
     const { src, showIcon, active, movieId, movieName } = this.props;
@@ -54,30 +54,21 @@ class Image extends Component {
       imageContainer: true,
       thumbnail: this.props.type === 'thumbnail',
       loaded: this.state.loaded,
-      active: this.props.active,
+      active: this.props.active
     });
 
     return (
       <div
-        onMouseEnter={ this.handleMouseEnter }
-        onMouseLeave={ this.handleMouseLeave }
-        className={ classes }
-        onClick={ this.handleClick(movieId) }
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        className={classes}
+        onClick={this.handleClick(movieId)}
       >
-        <Loader isLoading={ !this.state.loaded } />
-        <img
-          alt={ movieName }
-          onLoad={ this.handleOnLoad } 
-          src={ src }
-        />
-        {
-          showIcon ? (
-            <ExpandableButton
-              show={ this.state.hovered }
-              isOpen={ active }
-            />
-          ) : null
-        }
+        <Loader isLoading={!this.state.loaded} />
+        <img alt={movieName} onLoad={this.handleOnLoad} src={src} />
+        {showIcon ? (
+          <ExpandableButton show={this.state.hovered} isOpen={active} />
+        ) : null}
       </div>
     );
   }
