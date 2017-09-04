@@ -48,7 +48,7 @@ class Image extends Component {
   }
 
   render() {
-    const { src, showIcon, active, movieId } = this.props;
+    const { src, showIcon, active, movieId, movieName } = this.props;
 
     const classes = classNames({
       imageContainer: true,
@@ -66,6 +66,7 @@ class Image extends Component {
       >
         <Loader isLoading={ !this.state.loaded } />
         <img
+          alt={ movieName }
           onLoad={ this.handleOnLoad } 
           src={ src }
         />

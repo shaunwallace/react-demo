@@ -7,6 +7,7 @@ import Header from './blocks/header';
 import Animate from './blocks/animate';
 import Image from './blocks/image';
 import MovieMeta from './blocks/movieMeta';
+import SortOptions from './blocks/sortOptions';
 
 // modules
 import Gallery from './modules/gallery';
@@ -23,5 +24,6 @@ export {
   Animate,
   Image,
   Modal,
-  MovieMeta
+  MovieMeta,
+  SortOptions
 }

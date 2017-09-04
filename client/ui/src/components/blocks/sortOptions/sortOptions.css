@@ -1,0 +1,23 @@
+.sortOptions {
+  margin: 0;
+  color: white;
+  font-size: 16px;
+}
+
+.sortOptions > div {
+  display: inline-block;
+  float: left;
+}
+
+.sortOptions span {
+  display: inline-block;
+  padding: 0 5px;
+  opacity: .7;
+  transition: opacity 300ms;
+  cursor: pointer;
+}
+
+.sortOptions span.active {
+  text-decoration: underline;
+  opacity: 1;
+}

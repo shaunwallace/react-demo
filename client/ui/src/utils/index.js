@@ -52,7 +52,7 @@ export function get(endpoint = '/', req = {}, responseParseType = 'json') {
 
 export function classNames(obj) {
   return Object.keys(obj)
-    .map(key => { if (obj[key]) return key; })
+    .map(key => obj[key] ? key : '')
     .join(' ')
     .trim();
 }

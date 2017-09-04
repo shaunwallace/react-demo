@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Movie, Header, ExpandableButton, Modal } from '../../';
-import { noop, classNames } from '../../../utils';
+import { Movie, Header, ExpandableButton, Modal, SortOptions } from '../../';
+import { noop } from '../../../utils';
 import './galleryPreview.css';
 
 class GalleryPreview extends Component {
@@ -59,24 +59,11 @@ class GalleryPreview extends Component {
               style={{ maxHeight: `${document.body.getBoundingClientRect().height}px` }}
             >
               <Header>
-                <h3 className="galleryOrder">Order By: 
-                  <span
-                    className={classNames({
-                      active: this.props.galleryOrder === 'movieId'
-                    })}
-                    onClick={this.setOrderPriority('movieId')}
-                  >
-                    movieId
-                  </span>| 
-                  <span
-                    className={classNames({
-                      active: this.props.galleryOrder === 'languageCode'
-                    })}
-                    onClick={this.setOrderPriority('languageCode')}
-                  >
-                    languageCode
-                  </span>
-                </h3>
+                <SortOptions
+                  orderOptions={ ['movieId', 'languageCode'] }
+                  activeOption={ this.props.galleryOrder }
+                  setOption={ this.setOrderPriority }
+                />
                 <ExpandableButton
                   show
                   initialOpenState

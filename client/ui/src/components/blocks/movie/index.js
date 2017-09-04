@@ -38,7 +38,7 @@ class Movie extends Component {
   }
 
   render() {
-    const { movieName, type, thumbnailUrl, fullSizeImageUrl } = this.props;
+    const { type, thumbnailUrl, fullSizeImageUrl } = this.props;
     const classes = classNames({
       movieTile: true,
       thumbnail: type === 'thumbnail',
