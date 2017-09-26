@@ -13,28 +13,32 @@ export function initialize() {
   return async dispatch => {
     dispatch({
       type: APP_INIT,
-      // payload: {titles: [...titles.titles, ...titles.titles, ...titles.titles, ...titles.titles]},
-      payload: await get('/api/movies/titles')
+      payload: await get('/api/movies/withthumbnails')
     });
   };
 }
 
-export function getSelectedTitles(id) {
+export function getVersions(id, limit = 20, skip) {
   return async (dispatch, getState) => {
     dispatch({
       type: TITLE_SELECTED,
       payload: id
     });
 
-    dispatch({
-      type: VERSIONS_RECEIVED,
-      payload: {
-        versions:
-          getState().appState.versions[id] ||
-          (await get(`/api/movies?filter[where][movieId]=${id}`)),
-        id
-      }
-    });
+    // api/Movies/70140358/versions?filter=%7B%22limit%22%3A5%7D
+    // filter[limit]=10&filter[skip]=0
+    const versions = await get(`/api/movies/${id}/versions?filter=[limit]=${limit}`);
+
+    setTimeout(() => {
+      dispatch({
+        type: VERSIONS_RECEIVED,
+        payload: {
+          id,
+          versions:
+            getState().appState.versions[id] || versions
+        }
+      });
+    }, 700)
   };
 }
 

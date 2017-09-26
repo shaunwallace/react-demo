@@ -1,39 +1,32 @@
 {
-  "name": "movie",
+  "name": "Movie",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
     "movieId": {
       "type": "number",
-      "required": true
+      "required": true,
+      "id": true
     },
     "movieName": {
       "type": "string",
       "required": true
     },
-    "imageType": {
-      "type": "string",
-      "required": true
-    },
-    "thumbnailUrl": {
-      "type": "string",
-      "required": true
-    },
-    "fullSizeImageUrl": {
-      "type": "string",
-      "required": true
-    },
-    "languageCode": {
-      "type": "string",
-      "required": true,
-      "default": ""
+    "versionCount": {
+      "type": "number"
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "versions": {
+      "type": "hasMany",
+      "model": "Version",
+      "foreignKey": "movieId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

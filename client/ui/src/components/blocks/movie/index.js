@@ -39,6 +39,7 @@ class Movie extends Component {
 
   render() {
     const { type, thumbnailUrl, fullSizeImageUrl } = this.props;
+
     const classes = classNames({
       movieTile: true,
       thumbnail: type === 'thumbnail',
@@ -47,14 +48,17 @@ class Movie extends Component {
     });
 
     return (
-      <div className={classes} onClick={this.handleClick(this.props)}>
+      <div
+        className={ classes }
+        onClick={ this.handleClick(this.props) }
+      >
         <Image
-          type={type}
-          showIcon={this.props.showIcon}
-          active={this.props.selected}
-          src={type === 'thumbnail' ? thumbnailUrl : fullSizeImageUrl}
+          type={ type }
+          showIcon={ this.props.showIcon }
+          active={ this.props.selected }
+          src={ type === 'thumbnail' ? thumbnailUrl : fullSizeImageUrl }
         />
-        {this.props.children}
+        { this.props.children }
       </div>
     );
   }

@@ -12,14 +12,14 @@ const {
 
 const defaultState = {
   gallery: {
-    galleryPreview: false,
-    gallerySidebar: true,
-    galleryExpanded: false,
-    galleryOrder: 'movieId'
+    preview: false,
+    sidebar: true,
+    expanded: false,
+    order: 'movieId'
   },
   selectedTitle: null,
   selectedVersion: null,
-  titles: [],
+  movies: [],
   activeVersions: [],
   versions: {}
 };
@@ -27,18 +27,18 @@ const defaultState = {
 export default (state = defaultState, action = {}) => {
   switch (action.type) {
     case APP_INIT:
-      return { ...state, titles: action.payload.titles };
+      return { ...state, movies: action.payload.movies };
     case TITLE_SELECTED:
       return {
         ...state,
         activeVersions: state.versions[action.payload],
         selectedTitle: action.payload,
-        ...updateItem(state.titles, action.payload, 'movieId'),
+        movies: updateItem(state.movies, action.payload, 'movieId'),
         gallery: {
           ...state.gallery,
           ...{
-            galleryPreview: true,
-            gallerySidebar: false
+            preview: true,
+            sidebar: false
           }
         }
       };
@@ -49,7 +49,7 @@ export default (state = defaultState, action = {}) => {
         selectedTitle: null,
         selectedVersion: null,
         activeVersions: [],
-        ...updateItem(state.titles, state.selectedTitle, 'movieId', false)
+        ...updateItem(state.movies, state.selectedTitle, 'movieId', false)
       };
     case VERSIONS_RECEIVED:
       return {
@@ -67,7 +67,7 @@ export default (state = defaultState, action = {}) => {
         gallery: {
           ...state.gallery,
           ...{
-            galleryExpanded: action.payload
+            expanded: action.payload
           }
         }
       };
@@ -77,7 +77,7 @@ export default (state = defaultState, action = {}) => {
         gallery: {
           ...state.gallery,
           ...{
-            galleryOrder: action.payload
+            order: action.payload
           }
         },
         activeVersions: [

@@ -35,7 +35,11 @@
     "dataSource": "db",
     "public": false
   },
-  "movie": {
+  "Movie": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Version": {
     "dataSource": "db",
     "public": true
   }

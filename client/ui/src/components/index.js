@@ -7,9 +7,11 @@ import Animate from './blocks/animate';
 import Image from './blocks/image';
 import MovieMeta from './blocks/movieMeta';
 import SortOptions from './blocks/sortOptions';
+import ScrollableSection from './blocks/scrollableSection';
 
 // modules
 import Gallery from './modules/gallery';
+import GallerySidebar from './modules/gallerySidebar';
 import GalleryPreview from './modules/galleryPreview';
 import Modal from './modules/modal';
 
@@ -24,5 +26,7 @@ export {
   Image,
   Modal,
   MovieMeta,
-  SortOptions
+  SortOptions,
+  ScrollableSection,
+  GallerySidebar
 };

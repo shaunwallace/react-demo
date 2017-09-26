@@ -1,42 +1,37 @@
-'use strict';
-
 module.exports = Movie => {
-
-  Movie.titles = (orderedBy = 'movieId', cb) => {
-
-    Movie.find({
-      order: orderedBy
-    }, (err, titles) => {
+  
+  Movie.withThumbnails = (order = 'movieId', cb) => {
+    
+    Movie.find({ order, include: 'versions' }, (err, movies) => {
 
       if (!err) {
-        let filtered = {};
-        let results = [];
-
-        titles.forEach(title => {
-          const key = title[orderedBy];
-          if (!filtered[key]) {
-            filtered[key] = true;
-            results.push(title)
+        let results = movies.map(movie => {
+          const { movieId, movieName, thumbnailUrl, versions } = movie.toJSON();
+          return {
+            movieId,
+            movieName,
+            thumbnailUrl: versions[0].thumbnailUrl,
+            versions: versions.length
           }
         });
   
         cb(null, results);
       }
-    }); 
+    });
   }
 
-  Movie.remoteMethod('titles', {
+  Movie.remoteMethod('withThumbnails', {
     http: {
-      path: '/titles',
+      path: '/withThumbnails',
       verb: 'get'
     },
     accepts: {
-      arg: 'orderedBy',
+      arg: 'order',
       type: 'string'
     },
     returns: {
-      arg: 'titles',
+      arg: 'movies',
       type: 'array'
     }
-  })
+  });
 };

@@ -30,7 +30,7 @@ class Image extends Component {
   };
 
   handleClick = () => {
-    if (!this.props.active) {
+    if (!this.props.active && this.state.loaded) {
       this.props.onClick();
     }
   };
@@ -66,9 +66,9 @@ class Image extends Component {
       >
         <Loader isLoading={!this.state.loaded} />
         <img alt={movieName} onLoad={this.handleOnLoad} src={src} />
-        {showIcon ? (
+        {showIcon &&
           <ExpandableButton show={this.state.hovered} isOpen={active} />
-        ) : null}
+        }
       </div>
     );
   }

@@ -29,12 +29,14 @@ class Animate extends Component {
   componentDidMount() {
     this.animation = this.instance.animate(
       this.props.frames,
-      Object.assign({}, animationOptionDefaults, this.props.options)
+      { ...animationOptionDefaults, ...this.props.options }
     );
+
     this.props.playOnInitialization || this.animation.pause();
+
     this.animation.addEventListener('finish', () => {
       this.props.onFinish(this.instance);
-    });
+    }, { once: true });
   }
 
   componentWillUnmount() {
@@ -42,9 +44,31 @@ class Animate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.play !== this.props.play && nextProps.play) {
-      this.animation.play();
+    console.log(nextProps, this.props);
+    // if (nextProps.play !== this.props.play && nextProps.play) {
+    //   this.animation.play();
+    // }
+
+    if (nextProps.frames !== this.props.frames) {
+      console.log('here');
+      this.animation.removeEventListener('finish', this.props.onFinish);
+
+      this.animation = this.instance.animate(
+        this.props.frames,
+        { ...animationOptionDefaults, ...this.props.options }
+      );
+
+      this.props.playOnInitialization || this.animation.pause();
+
+      this.animation.addEventListener('finish', () => {
+        this.props.onFinish(this.instance);
+      }, { once: true });
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.frames !== this.props.frames ||
+      nextProps.play !== this.props.play;
   }
 
   play = () => {

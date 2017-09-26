@@ -1,0 +1,28 @@
+.gallerySidebar {
+  overflow-y: scroll;
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  padding: 0 10px;
+  grid-template-columns: minmax(auto, 299px);
+  transition: all .6s ease;
+}
+
+.gallerySidebar.collapsed .item {
+  will-change: transform;
+  transform: translate3d(-75%, 0, 0);
+}
+
+.gallerySidebar.collapsed .item:hover {
+  opacity: 1;
+  will-change: transform;
+  transform: translate3d(-30%, 0, 0);
+}
+
+.gallerySidebar .item {
+  transition: all .6s ease;
+}
+
+.gallerySidebar .item.inactive {
+  opacity: .2;
+}

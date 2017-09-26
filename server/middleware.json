@@ -42,7 +42,7 @@
   },
   "files": {
     "loopback#static": {
-      "params": "$!../client/ui/build" 
+      "params": "$!../client/ui/build"
     }
   },
   "final": {

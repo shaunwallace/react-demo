@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Movie, Header, ExpandableButton, Modal, SortOptions } from '../../';
+import { Movie, Header, ExpandableButton, Modal, SortOptions, Loader, ScrollableSection, Animate } from '../../';
 import { noop } from '../../../utils';
 import './galleryPreview.css';
+
+const hideAnimation = [{ opacity: 1 }, { opacity: 0 }];
+const showAnimation = [{ opacity: 0 }, { opacity: 1 }];
 
 class GalleryPreview extends Component {
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.object),
     showGalleryImages: PropTypes.bool,
+    order: PropTypes.string,
     onModalStateChange: PropTypes.func,
-    galleryOrder: PropTypes.string,
     onGroupSelection: PropTypes.func
   };
 
   static defaultProps = {
     images: [],
-    showGalleryImages: true,
+    showGalleryImages: false,
+    order: null,
     onModalStateChange: noop,
-    galleryOrder: null,
     onGroupSelection: noop
   };
 
@@ -48,84 +51,70 @@ class GalleryPreview extends Component {
   };
 
   setOrderPriority = groupBy => () => {
-    if (groupBy !== this.props.galleryOrder) {
+    if (groupBy !== this.props.order) {
       this.props.onGroupSelection(groupBy);
     }
   };
 
   render() {
-    const length = this.props.images.length;
+    const { images = Array.from(Array(15).keys()), showGalleryImages, order, onClose } = this.props;
+
     return (
-      <section className="galleryPreview">
-        {length ? (
-          <div
-            className="galleryPreviewContainer"
-            style={{
-              maxHeight: `${document.body.getBoundingClientRect().height}px`
-            }}
-          >
-            <Header>
-              <SortOptions
-                orderOptions={['movieId', 'languageCode']}
-                activeOption={this.props.galleryOrder}
-                setOption={this.setOrderPriority}
-              />
-              <ExpandableButton
-                show
-                initialOpenState
-                onClick={this.props.onClose}
-              />
-            </Header>
-            <div className="galleryPreviewImages">
-              {this.props.images.map((item, i) => (
-                <Movie
-                  key={i}
-                  type="galleryThumbnail"
-                  onClick={this.onSelectedImage(item)}
-                  {...item}
-                />
-              ))}
-            </div>
-          </div>
-        ) : null}
-        <h1 style={{ opacity: length !== 0 ? 0 : 1 }}>
-          Choose a title to preview artwork
-        </h1>
-        <Modal
-          open={this.state.selectedTitle !== null}
-          onClose={this.closeModal}
-          {...this.state.selectedTitle}
-        />
-      </section>
+      <ScrollableSection
+        classes="galleryPreview"
+      >
+        <div className="galleryContent" style={{ opacity: showGalleryImages ? 0 : 1 }}>
+          <h1 className="previewInstructions">
+            Choose a title to preview artwork
+          </h1>
+        </div>
+        {
+          images.map((item, i) => (
+            <Movie
+              key={ i }
+              type="thumbnail"
+              onClick={ this.onSelectedImage(item) }
+              { ...item }
+            /> 
+          ))
+        }
+      </ScrollableSection>
     );
   }
 }
 
 export default GalleryPreview;
 
+// <Header>
+// <SortOptions
+//   orderOptions={ ['movieId', 'languageCode'] }
+//   activeOption={ order }
+//   setOption={ this.setOrderPriority }
+// />
+// <ExpandableButton
+//   show
+//   initialOpenState
+//   onClick={ onClose }
+// />
+// </Header>
 // {
-//   reveal ? (
-//     this.props.images.map((item, i) =>
-//       <Movie
-//         key={i}
-//         type="galleryThumbnail"
-//         { ...item }
-//       />
-//     )
-//   ) :
-//     <Animate
-//       playOnInitialization
-//       { ...{
-//         frames: [
-//           { opacity: 0 },
-//           { opacity: 1 }
-//         ],
-//         onFinish: function() {
-//           this.setAttribute("style", `opacity: 1`);
-//         }
-//       }
-//     }
-//     >
-//       <h1>Choose a title</h1>
-//     </Animate>
+// images.map((item, i) => (
+//   images.length ? (
+//     <Movie
+//       key={ i }
+//       type="thumbnail"
+//       onClick={ this.onSelectedImage(item) }
+//       { ...item }
+//     /> 
+//   ) : (
+//     <div className="loadingPlaceholder" style={{ height: `${351 / (299/168)}px` }}>
+//       <Loader isLoading={ showGalleryImages } />
+//     </div>
+//   )
+// ))
 // }
+// <Modal
+// open={this.state.selectedTitle !== null}
+// onClose={this.closeModal}
+// {...this.state.selectedTitle}
+// />

@@ -1,13 +1,9 @@
 export function parseResponse(type) {
   return res => {
-    switch (type) {
-      case 'json':
-        return res.json();
-      case 'text':
-        return res.text();
-      default:
-        return res.json();
+    if(!res[type]) {
+      throw new Error("invalid response data transformation type");
     }
+    return res[type]();
   };
 }
 
@@ -58,6 +54,7 @@ export function classNames(obj) {
 }
 
 function search(items, value, property) {
+  // modified binary search
   var start = 0;
   var end = items.length - 1;
   var middle = Math.floor((start + end) / 2);
@@ -78,22 +75,20 @@ function search(items, value, property) {
 }
 
 export function updateItem(array, id, key, newState = true) {
+
   const index = search(array, id, key);
 
   if (index !== -1) {
-    const titles = array.map(
-      (v, i) =>
-        i === index
-          ? { ...v, selected: newState }
-          : v.selected ? { ...v, selected: false } : v
-    );
-
-    return {
-      titles
-    };
+    // map over the items and reset the item that was previously
+    // selected as well as set the selected state of the new item
+    return array.map((v, i) =>
+      i === index
+        ? { ...v, selected: newState }
+        : v.selected ? { ...v, selected: false } : v
+    )
   }
 
-  return { titles: array };
+  return array;
 }
 
 export function noop() {}

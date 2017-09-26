@@ -15,6 +15,10 @@ class Modal extends Component {
     open: false
   };
 
+  componentDidMount() {
+    console.log(this.refs.modal);
+  }
+
   render() {
     const classes = classNames({
       modal: true,
@@ -22,14 +26,14 @@ class Modal extends Component {
     });
 
     return (
-      <div className={classes} onClick={this.props.onClose}>
+      <div ref="modal" className={ classes } onClick={ this.props.onClose }>
         <div className="content">
           <div className="body">
-            <Movie {...this.props} type="fullsize">
+            <Movie { ...this.props } type="fullsize">
               <ExpandableButton
                 show
                 initialOpenState
-                onClick={this.props.onClose}
+                onClick={ this.props.onClose }
               />
             </Movie>
           </div>

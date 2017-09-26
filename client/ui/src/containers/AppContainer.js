@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
   initialize,
-  getSelectedTitles,
+  getVersions,
   closeGallery,
   updateExpandedView,
   groupExpandedView
 } from '../actions';
-import { Gallery, Movie } from '../components';
+import { Gallery, GallerySidebar, GalleryPreview, Movie } from '../components';
 import './appContainer.css';
 
 class AppContainer extends Component {
@@ -18,12 +18,35 @@ class AppContainer extends Component {
   }
 
   render() {
+    const { 
+      images,
+      gallery, 
+      versions, 
+      getVersions, 
+      closeGallery,
+      groupExpandedView,
+      updateExpandedView
+    } = this.props;
+
     return (
       <main>
-        <Gallery {...this.props} maxImageHeight={120}>
-          <Movie
-            type="thumbnail"
-            onClick={this.props.getSelectedTitlesVersions}
+        <Gallery { ...this.props }>
+          <GallerySidebar
+            images={ images }
+            sidebar={ gallery.sidebar }
+          >
+            <Movie
+              type="thumbnail"
+              onClick={ getVersions }
+            />
+          </GallerySidebar>
+          <GalleryPreview
+            images={ versions }
+            showGalleryImages={ gallery.preview }
+            galleryOrder={ gallery.order }
+            onClose={ closeGallery }
+            onModalStateChange={ updateExpandedView }
+            onGroupSelection={ groupExpandedView }
           />
         </Gallery>
       </main>
@@ -32,7 +55,7 @@ class AppContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  images: state.appState.titles,
+  images: state.appState.movies,
   versions: state.appState.activeVersions,
   selectedTitle: state.appState.selectedTitle,
   selectedVersion: state.appState.selectedVersion,
@@ -41,7 +64,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initialize: () => dispatch(initialize()),
-  getSelectedTitlesVersions: title => dispatch(getSelectedTitles(title)),
+  getVersions: title => dispatch(getVersions(title)),
   closeGallery: () => dispatch(closeGallery()),
   updateExpandedView: version => dispatch(updateExpandedView(version)),
   groupExpandedView: groupBy => dispatch(groupExpandedView(groupBy))
